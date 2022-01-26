@@ -6,6 +6,7 @@ classes used in this project """
 from datetime import datetime
 from models import storage
 from uuid import uuid4
+import models
 
 
 
@@ -13,7 +14,6 @@ class BaseModel:
     """ Defines instance attributes used for all sub-classes """
     def __init__(self, *args, **kwargs):
         """ Initializes instances with common attributes
-
         Args:
             args: A tuple that contains all arguments
             kwargs: A dictionary that contains all arguments by key/value
