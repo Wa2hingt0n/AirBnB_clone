@@ -5,6 +5,7 @@ classes used in this project """
 
 from datetime import datetime
 from uuid import uuid4
+import models
 
 
 
@@ -12,7 +13,6 @@ class BaseModel:
     """ Defines instance attributes used for all sub-classes """
     def __init__(self, *args, **kwargs):
         """ Initializes instances with common attributes
-
         Args:
             args: A tuple that contains all arguments
             kwargs: A dictionary that contains all arguments by key/value
@@ -33,6 +33,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new()
 
     def __str__(self):
         """ Overrides the __str__ method to print custom text """
@@ -44,6 +45,7 @@ class BaseModel:
         """ Updated the updated_at instance attribute with the current datetime
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """ Returns a dictionary containing all keys/values of __dict__ of the
