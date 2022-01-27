@@ -3,7 +3,7 @@
 
 
 import json
-import os.path
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -38,6 +38,14 @@ class FileStorage:
 
     def reload(self):
         """ Deserializes a json string back to an instance """
-        if os.path.isfile(FileStorage.__file_path):
+        #if os.path.isfile(FileStorage.__file_path):
+         #   with open(FileStorage.__file_path, 'r') as f:
+          #      FileStorage.__objects = json.load(f)
+        try:
             with open(FileStorage.__file_path, 'r') as f:
-                FileStorage.__objects = json.load(f)
+                json_dict = json.load(f)
+                for obj in json_dict.values():
+                    cls_name = obj["__class__"]
+                    self.new(eval("{}({})".format(cls_name, "**obj")))
+        except FileNotFoundError:
+            pass
