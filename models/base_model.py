@@ -4,7 +4,6 @@ classes used in this project """
 
 
 from datetime import datetime
-from models import storage
 from uuid import uuid4
 import models
 
@@ -38,7 +37,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """ Overrides the __str__ method to print custom text """
@@ -50,7 +49,7 @@ class BaseModel:
         """ Updated the updated_at instance attribute with the current datetime
         """
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """ Returns a dictionary containing all keys/values of __dict__ of the
