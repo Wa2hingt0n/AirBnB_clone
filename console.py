@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
                 new = eval(class_name + "()")
                 new.save()
                 print(new.id)
-            except IndexError:
+            except KeyError:
                 print("** class doesn't exist **")
 
     def do_show(self, line):
@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
                 key = "{}.{}".format(commands[0], commands[1])
                 try:
                     print(instances[key])
-                except IndexError:
+                except KeyError:
                     print("** no instance found **")
 
     def do_destroy(self, line):
@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                     key = "{}.{}".format(commands[0], commands[1])
                     del instances[key]
                     models.storage.save()
-                except IndexError:
+                except KeyError:
                     print("** no instance found **")
 
     def do_all(self, line):
