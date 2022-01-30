@@ -8,7 +8,6 @@ from uuid import uuid4
 import models
 
 
-
 class BaseModel:
     """ Defines instance attributes used for all sub-classes """
     def __init__(self, *args, **kwargs):
@@ -50,8 +49,6 @@ class BaseModel:
     def to_dict(self):
         """ Returns a dictionary containing all keys/values of __dict__ of the
         instance """
-        #self.created_at = self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        #self.updated_at = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
         obj_dict = dict(self.__dict__)
         obj_dict['created_at'] = obj_dict['created_at'].isoformat()
         obj_dict['updated_at'] = obj_dict['updated_at'].isoformat()
