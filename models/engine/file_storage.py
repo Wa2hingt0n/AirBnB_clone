@@ -4,6 +4,12 @@
 
 import json
 from models.base_model import BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 
 
 class FileStorage:
@@ -38,9 +44,6 @@ class FileStorage:
 
     def reload(self):
         """ Deserializes a json string back to an instance """
-        #if os.path.isfile(FileStorage.__file_path):
-         #   with open(FileStorage.__file_path, 'r') as f:
-          #      FileStorage.__objects = json.load(f)
         try:
             with open(FileStorage.__file_path, 'r') as f:
                 json_dict = json.load(f)

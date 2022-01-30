@@ -4,7 +4,14 @@ command interpreter """
 import cmd
 import shlex
 import models
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+
 
 def parse(line):
     """ Parses a string of commands and returns a list of the tokens """
@@ -14,7 +21,8 @@ class HBNBCommand(cmd.Cmd):
     """ Defines the entry point to the command line interpreter """
     intro = "Welocome to the hbnb shell. Type help or ? to list commands.\n"
     prompt = "(hbnb) "
-    available_classes = ["BaseModel"]
+    available_classes = ["BaseModel", "User", "Amenity", "City", "Place",
+                         "Review", "State"]
 
 
     def emptyline(self):
@@ -79,14 +87,53 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
 
     def do_all(self, line):
-        """ Prints all string representation of all instances based on an
+        """ Prints a string representation of all instances based on an
         optional class name argument
 
         Usage: all <classname> OR all
         """
-        #class_name = parse(line)
-        #if class_name[0] not in HBNBCommand.available_classes:
-         #   print("** class doesn't exist **")
+        clsname = parse(line)
+        obj_list = []
+        if len(clsname) > 0:
+            if clsname[0] not in HBNBCommand.available_classes:
+                print("** class doesn't exist **")
+        else:
+            for obj in models.storage.all().values():
+                if len(clsname) > 0 and clsname[0] == obj.__class__.__name__:
+                    obj_list.append(obj.__str__())
+                elif len(clsname) == 0:
+                    obj_list.append(obj.__str__())
+            print(obj_list)
+
+    def do_update(self, line):
+        """ Updates an instance based on the class name and id by adding or
+        updating attribute. The changes are then saved into a JSON file
+
+        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        """
+        args = parse(line)
+        instance_dict = models.storage.all()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in HBNBCommand.available_classes:
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(args[0], args[1]) not in instance_dict.keys():
+            print("** no instance found")
+        elif len(args) == 2:
+            print("** attribute name missing **")
+        elif len(args) == 3:
+            print("** value missing **")
+        else:
+            obj = instance_dict["{}.{}".format(args[0], args[1])]
+            if args[2] in obj.__class__.__dict__.keys():
+                attr_type = type(obj.__class__.__dict__[args[2]])
+                obj.__dict__[args[2]] = attr_type(args[3])
+            else:
+                obj.__dict__[args[2]] = args[3]
+
+        models.storage.save()
 
     def do_quit(self, arg):
         """ Quit command to exit the program

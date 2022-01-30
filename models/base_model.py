@@ -27,12 +27,8 @@ class BaseModel:
                 elif k == "updated_at":
                     self.updated_at = datetime.strptime(v,
                                                         '%Y-%m-%dT%H:%M:%S.%f')
-                elif k == "name":
-                    self.name = v
-                elif k == "my_number":
-                    self.my_number = v
-                elif k == "__class__":
-                    continue
+                elif k != "__class__":
+                    self.__dict__[k] = v
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
@@ -54,8 +50,10 @@ class BaseModel:
     def to_dict(self):
         """ Returns a dictionary containing all keys/values of __dict__ of the
         instance """
-        self.created_at = self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        self.updated_at = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        obj_dict = self.__dict__
+        #self.created_at = self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
+        #self.updated_at = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
+        obj_dict = dict(self.__dict__)
+        obj_dict['created_at'] = obj_dict['created_at'].isoformat()
+        obj_dict['updated_at'] = obj_dict['updated_at'].isoformat()
         obj_dict['__class__'] = self.__class__.__name__
         return obj_dict
