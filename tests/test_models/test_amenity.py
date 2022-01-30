@@ -93,6 +93,8 @@ class TestAmenity_initialization(unittest.TestCase):
         self.assertIn('id', obj_dict)
         self.assertIn('created_at', obj_dict)
         self.assertIn('updated_at', obj_dict)
+        self.assertEqual(obj_dict['created_at'], obj.created_at.isoformat())
+        self.assertEqual(obj_dict['updated_at'], obj.updated_at.isoformat())
 
     def test_to_dict_custom_attributes_added(self):
         obj = Amenity()
