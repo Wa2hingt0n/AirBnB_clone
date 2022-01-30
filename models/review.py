@@ -5,6 +5,7 @@ model Review class
 
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """
     Public class attributes:

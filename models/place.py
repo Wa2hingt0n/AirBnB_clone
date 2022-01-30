@@ -5,6 +5,7 @@ model place class
 
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """
     public attributes containing empty string, integer and float.

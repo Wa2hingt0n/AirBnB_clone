@@ -121,6 +121,5 @@ class TestBaseModel_initialization(unittest.TestCase):
         self.assertEqual(obj_str[:11], "[BaseModel]")
 
 
-
 if __name__ == '__main__':
     unittest.main()

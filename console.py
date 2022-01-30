@@ -17,13 +17,13 @@ def parse(line):
     """ Parses a string of commands and returns a list of the tokens """
     return shlex.split(line)
 
+
 class HBNBCommand(cmd.Cmd):
     """ Defines the entry point to the command line interpreter """
     intro = "Welocome to the hbnb shell. Type help or ? to list commands.\n"
     prompt = "(hbnb) "
     available_classes = ["BaseModel", "User", "Amenity", "City", "Place",
                          "Review", "State"]
-
 
     def emptyline(self):
         """ Overrides the emptyline() method """
@@ -32,15 +32,14 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, class_name):
         """ Creates a new instance, saves it to file.json and prints the id
         """
-
         if not class_name:
-             print("** class name missing **")
+            print("** class name missing **")
         else:
             try:
                 new = eval(class_name + "()")
                 new.save()
                 print(new.id)
-            except:
+            except IndexError:
                 print("** class doesn't exist **")
 
     def do_show(self, line):
@@ -61,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
                 key = "{}.{}".format(commands[0], commands[1])
                 try:
                     print(instances[key])
-                except:
+                except IndexError:
                     print("** no instance found **")
 
     def do_destroy(self, line):
@@ -83,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                     key = "{}.{}".format(commands[0], commands[1])
                     del instances[key]
                     models.storage.save()
-                except:
+                except IndexError:
                     print("** no instance found **")
 
     def do_all(self, line):
@@ -144,8 +143,6 @@ class HBNBCommand(cmd.Cmd):
         """ EOF command to exit the program """
         print()
         return True
-
-
 
 
 if __name__ == '__main__':
